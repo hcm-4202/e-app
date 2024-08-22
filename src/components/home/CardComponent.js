@@ -2,7 +2,7 @@ import { Box, Button, Typography } from "@mui/material"
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { add } from "../../store/appSlice";
+import { add, decrease } from "../../store/appSlice";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
@@ -20,13 +20,13 @@ function CardComponent({products}){
           </Link>
            {data.map((val)=>{
             if(val.id === product.id){
-               count = count +1
+               count = val.itemCount
             }
 
            })}
            {count ==0 ? <Button sx={{border: '1px solid gray', marginTop:'17px'}} onClick={()=>dispatch(add(product))} >Add to cart <Typography sx={{marginLeft:'5px', marginTop:'5px'}}><ShoppingCartOutlinedIcon/></Typography> </Button>
             : <Box sx={{display:'flex' ,border:'1px solid gray', width:'150px', marginLeft:'90px',marginTop:'30px'}}>
-                <Button sx={{borderRight:'1px solid gray'}}><RemoveIcon/></Button>
+                <Button sx={{borderRight:'1px solid gray'}} onClick={()=>dispatch(decrease(product))}><RemoveIcon/></Button>
                 <Typography sx={{marginX:'10px',fontWeight:'bold',marginTop:'5px'}}>{count}</Typography>
                  <Button sx={{borderLeft:'1px solid gray'}} onClick={()=>dispatch(add(product))}><AddIcon/></Button>
                 </Box>}

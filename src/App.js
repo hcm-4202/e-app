@@ -7,7 +7,9 @@ import CategoryDetails from './components/CategoryDetails';
 import CartPage from './components/cart/CartPage';
 import { Provider } from 'react-redux';
 import shopStore from './store/store';
-
+import ProccedToPay from './components/proccedToPay';
+import LandingPage from './components/LandingPage';
+import Profile from './components/profile';
 function App() {
   return (
    <BrowserRouter>
@@ -15,11 +17,14 @@ function App() {
 
     <Header/>
     <Routes>
-      <Route path='/' element={<Login/>}/>
+      <Route path='/' element={<LandingPage/>}/>
+      <Route path='/login' element={<Login/>}/>
+      <Route path='/profile' element={<Profile/>}/>
       <Route path='/home' element={<Home/>}/>
       <Route path='/product/:id' element={<ProductDetails/>}/>
       <Route path='/category/:category' element={<CategoryDetails/>}/>
       <Route path='/cart' element={<CartPage/>}/>
+      <Route path='/proccedToPay' element={<ProccedToPay/>}/>
     </Routes>
     </Provider>
    </BrowserRouter>

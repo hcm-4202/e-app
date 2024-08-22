@@ -1,14 +1,26 @@
 import { Box, Button, Grid, ListItem, ListItemText, Menu, MenuItem, Typography } from "@mui/material"
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Link } from "react-router-dom";
 
 import { useSelector,useDispatch } from "react-redux";
 function Header(){
-   const data = useSelector((val)=> val.shop)
-  const [open,setOpen] =useState(false)
-  const [user,setUser] = useState(true)
+    const [count,setCount] = useState(0)
+   const data = useSelector((val)=> val.shop.item)
+   const [open,setOpen] =useState(false)
+  const [user,setUser] = useState('')
+   function countData(){
+    let sum =0
+    data.map((items)=>{
+       sum = sum + items.itemCount
+    })
+    setCount(sum)
+   }
+   useEffect(()=>{
+      countData()
+   },[data])
+  
   function handleIcon(){
       setOpen(!open)
   }
@@ -18,8 +30,9 @@ function Header(){
                  <Grid container spacing={3}>
                  <Grid item xs={9}>
                  <Box sx={{display:'flex', }}>
-                  
+                  <Link to={'/home'} style={{textDecoration:'none'}}>
                    <Typography sx={{fontSize:'50px',fontWeight:'bold' ,color:'#205058'}}>ShoppingMart</Typography>
+                  </Link>
                  </Box>
                  </Grid>
                 <Grid item xs={1} sx={{cursor:'pointer'}}>
@@ -30,7 +43,7 @@ function Header(){
                     <ListItemText ><Typography sx={{fontWeight:'bold',fontSize:'20px',marginTop:'4px'}}>Cart</Typography></ListItemText>
                     <Box>
                     <ShoppingCartOutlinedIcon sx={{position:'absolute'}}/>
-                     <Typography sx={{position:'relative' ,color:'red' ,fontWeight:'bold' ,paddingLeft:'20px',fontSize:'20px'}}>{data.item.length}</Typography>
+                     <Typography sx={{position:'relative' ,color:'red' ,fontWeight:'bold' ,paddingLeft:'20px',fontSize:'20px'}}>{count}</Typography>
                      
                     </Box>
                   </ListItem>
@@ -43,11 +56,11 @@ function Header(){
 
                       <AccountCircleOutlinedIcon sx={{fontSize:'40px'}} />
                 <Menu
-              sx={{ mt: '45px'  }}
+              sx={{ mt: '45px'}}
               id="menu-appbar"
               anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal:'right',
               }}
               keepMounted
               transformOrigin={{
@@ -58,13 +71,14 @@ function Header(){
               open ={open}
             >
               
-                <MenuItem sx={{height:'150px' ,width:'120px'}}>
-                {user ? <Box>
-                  <Button  sx={{textAlign:'center',color:'black',border:'1px solid black'}}>Login</Button>
+                <MenuItem sx={{height:'150px' ,width:'120px',marginLeft:'20px'}}>
+                {!localStorage.getItem('access') ? <Box>
+                  <Link to={'/login'}><Button  sx={{textAlign:'center',fontSize:'18px',border:'1px solid gray'}}>Login</Button></Link>
                 </Box> :
                   <Box  sx={{backgroundColor:'transparent' }}>
-                    <Typography sx={{mb:'25px'}}>{`hello ${'Tulasi'}`}</Typography>
-                    <Button  sx={{textAlign:'center',color:'black',border:'1px solid black'}}>Logout</Button></Box>
+                    <Link to='/profile' style={{textDecoration:'none'}}><Typography sx={{mb:'25px'}}>{`hello ${JSON.parse(localStorage.getItem('access'))}`}</Typography></Link>
+                    <Link to='/'><Button  sx={{textAlign:'center',color:'black',border:'1px solid black'}} onClick={()=>localStorage.removeItem('access')}>Logout</Button></Link>
+                    </Box>
                  }
                 </MenuItem>
             
