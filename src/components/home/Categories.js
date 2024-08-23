@@ -4,16 +4,8 @@ import { Link } from "react-router-dom"
 
 
 
-function Categories(){
-    const [categorie ,setCategorie] = useState([])
-    const  fetchCategories = async ()=>{
-        const res = await fetch('https://fakestoreapi.com/products/categories')
-        const result = await res.json()
-        setCategorie(result)
-    }
-    useEffect(()=>{
-       fetchCategories()
-    },[])
+function Categories(prop){
+    const {categorie} =prop
    
     return <Box sx={{display:'flex'}}>
             {categorie.map((item)=>{

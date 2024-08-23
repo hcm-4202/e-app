@@ -27,7 +27,7 @@ function CardComponent({products}){
            {count ==0 ? <Button sx={{border: '1px solid gray', marginTop:'17px'}} onClick={()=>dispatch(add(product))} >Add to cart <Typography sx={{marginLeft:'5px', marginTop:'5px'}}><ShoppingCartOutlinedIcon/></Typography> </Button>
             : <Box sx={{display:'flex' ,border:'1px solid gray', width:'150px', marginLeft:'90px',marginTop:'30px'}}>
                 <Button sx={{borderRight:'1px solid gray'}} onClick={()=>dispatch(decrease(product))}><RemoveIcon/></Button>
-                <Typography sx={{marginX:'10px',fontWeight:'bold',marginTop:'5px'}}>{count}</Typography>
+                <Typography sx={{marginX:'10px',fontWeight:'bold',marginTop:'5px'}} data-testid ='test'>{count}</Typography>
                  <Button sx={{borderLeft:'1px solid gray'}} onClick={()=>dispatch(add(product))}><AddIcon/></Button>
                 </Box>}
 
