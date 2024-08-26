@@ -72,12 +72,12 @@ function Header(){
             >
               
                 <MenuItem sx={{height:'150px' ,width:'120px',marginLeft:'20px'}}>
-                {!localStorage.getItem('access') ? <Box>
+                {!localStorage.getItem('token') ? <Box>
                   <Link to={'/login'}><Button  sx={{textAlign:'center',fontSize:'18px',border:'1px solid gray'}}>Login</Button></Link>
                 </Box> :
                   <Box  sx={{backgroundColor:'transparent' }}>
-                    <Link to='/profile' style={{textDecoration:'none'}}><Typography sx={{mb:'25px'}}>{`hello ${JSON.parse(localStorage.getItem('access'))}`}</Typography></Link>
-                    <Link to='/'><Button  sx={{textAlign:'center',color:'black',border:'1px solid black'}} onClick={()=>localStorage.removeItem('access')}>Logout</Button></Link>
+                    <Link to='/profile' style={{textDecoration:'none'}}><Typography sx={{mb:'25px'}}>{`hello ${localStorage.getItem('userName')}`}</Typography></Link>
+                    <Link to='/'><Button  sx={{textAlign:'center',color:'black',border:'1px solid black'}} onClick={()=>localStorage.clear()}>Logout</Button></Link>
                     </Box>
                  }
                 </MenuItem>

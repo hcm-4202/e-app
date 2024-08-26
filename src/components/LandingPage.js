@@ -4,7 +4,7 @@ import { Navigate } from "react-router"
 
 export default function LandingPage(){
     
-    if(!localStorage.access){
+    if(!localStorage.token){
 
         return <Navigate to="/login"/>
     }

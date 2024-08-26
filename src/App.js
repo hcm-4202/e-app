@@ -10,6 +10,7 @@ import shopStore from './store/store';
 import ProccedToPay from './components/proccedToPay';
 import LandingPage from './components/LandingPage';
 import Profile from './components/profile';
+import ProtectedRoute from './components/protectedRoute';
 function App() {
   return (
    <BrowserRouter>
@@ -19,12 +20,12 @@ function App() {
     <Routes>
       <Route path='/' element={<LandingPage/>}/>
       <Route path='/login' element={<Login/>}/>
-      <Route path='/profile' element={<Profile/>}/>
-      <Route path='/home' element={<Home/>}/>
+      <Route path='/profile' element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+      <Route path='/home' element={ <ProtectedRoute><Home/></ProtectedRoute>}/>
       <Route path='/product/:id' element={<ProductDetails/>}/>
       <Route path='/category/:category' element={<CategoryDetails/>}/>
-      <Route path='/cart' element={<CartPage/>}/>
-      <Route path='/proccedToPay' element={<ProccedToPay/>}/>
+      <Route path='/cart' element={<ProtectedRoute><CartPage/></ProtectedRoute>}/>
+      <Route path='/proccedToPay' element={<ProtectedRoute><ProccedToPay/></ProtectedRoute>}/>
     </Routes>
     </Provider>
    </BrowserRouter>
