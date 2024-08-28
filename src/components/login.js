@@ -2,8 +2,11 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import {  useState } from "react";
 import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { headerBar } from "../store/appSlice";
 
 function Login() {
+  const dispatch = useDispatch()
   const [user, setUser] = useState({ userName: "", password: "" });
   const navigate = useNavigate();
   function handleChange(e) {
@@ -21,6 +24,7 @@ function Login() {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userName", user.userName);
+        dispatch(headerBar())
         navigate("/");
       })
       .catch((err) => {
@@ -38,7 +42,6 @@ function Login() {
         justifyContent: "center",
         alignItems: "center",
         height: "86vh",
-        backgroundColor: "lightgray",
       }}
     >
       <Box

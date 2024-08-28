@@ -4,6 +4,7 @@ const shopSlice = createSlice({
   name: "e-app",
   initialState: {
     item: [],
+    header:false
   },
   reducers: {
     add: (state, action) => {
@@ -30,16 +31,13 @@ const shopSlice = createSlice({
         state.item = filterItems;
       }
     },
-    // removeCart:(state,action)=>{
-    //     const filterItems = state.item.filter((val)=>{
-    //         return val.id !== action.payload.id
-    //     })
-    //     state.item = filterItems
-    // },
     remove: (state, action) => {
       state.item.length = 0;
     },
+    headerBar :(state) =>{
+        state.header = !state.header
+    }
   },
 });
-export const { add, decrease, remove } = shopSlice.actions;
+export const { add, decrease, remove,headerBar } = shopSlice.actions;
 export default shopSlice.reducer;

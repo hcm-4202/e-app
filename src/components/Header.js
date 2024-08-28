@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 function Header() {
   const [count, setCount] = useState(0);
   const data = useSelector((val) => val.shop.item);
+  const header = useSelector((val)=>val.shop.header)
   const [open, setOpen] = useState(false);
   function countData() {
     let sum = 0;
@@ -34,6 +35,8 @@ function Header() {
   }
 
   return (
+    <Box> 
+      { localStorage.token ? 
     <Box sx={{ height: "100px", backgroundColor: "lightblue" }}>
       <Box sx={{ display: "flex", alignItems: "center", height: "100px" }}>
         <Grid container spacing={3}>
@@ -150,6 +153,8 @@ function Header() {
           </Grid>
         </Grid>
       </Box>
+    </Box>
+     : ''}
     </Box>
   );
 }
