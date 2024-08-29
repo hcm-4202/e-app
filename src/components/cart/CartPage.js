@@ -3,38 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { add, decrease, remove } from "../../store/appSlice";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 function CartPage() {
-  const data = useSelector((state) => state.shop.item);
+  const data = useSelector((state) => state.shop);
+  const {cartItem,headerCount,totalPrice} = data
   const dispatch = useDispatch();
-  const [productCount, setProductCount] = useState({ count: 0, price: 0 });
 
-  function countData() {
-    let sum = 0;
-    let price = 0;
-    data.map((items) => {
-      sum = sum + items.itemCount;
-      price = price + items.price * items.itemCount;
-    });
-    setProductCount((prev) => {
-      return { ...prev, count: sum, price: price };
-    });
-  }
   function handleConfirm(items) {
     if (window.confirm("Item is removing from Cart") == true) {
       dispatch(decrease(items));
     }
   }
-  useEffect(() => {
-    countData();
-  }, [data]);
-
   return (
     <>
-      {data.length === 0 ? (
+      {cartItem.length === 0 ? (
         <Box sx={{ height: "86.3vh", backgroundColor: "lightgray" }}>
           <Box
             sx={{
@@ -79,8 +63,8 @@ function CartPage() {
                       fontSize: "35px",
                       color: "darkolivegreen",
                     }}
-                  >{`Cart : ${productCount.count}`}</Typography>
-                  {data.map((items) => {
+                  >{`Cart : ${headerCount}`}</Typography>
+                  {cartItem.map((items) => {
                     return (
                       <Box
                         sx={{
@@ -167,14 +151,14 @@ function CartPage() {
                         fontWeight: "bold",
                         fontSize: "25px",
                       }}
-                    >{`Total products : ${productCount.count}`}</Typography>
+                    >{`Total products : ${headerCount}`}</Typography>
                     <Typography
                       sx={{
                         marginY: "40px",
                         fontWeight: "bold",
                         fontSize: "25px",
                       }}
-                    >{`Total Price : ${productCount.price}`}</Typography>
+                    >{`Total Price : ${totalPrice}`}</Typography>
                     <Link to={"/proccedToPay"}>
                       <Button
                         sx={{

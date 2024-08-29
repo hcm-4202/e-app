@@ -1,9 +1,9 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import {  useState } from "react";
-import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
+import {  Navigate,  useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { headerBar } from "../store/appSlice";
+import { addToken } from "../store/appSlice";
 
 function Login() {
   const dispatch = useDispatch()
@@ -24,7 +24,7 @@ function Login() {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userName", user.userName);
-        dispatch(headerBar())
+        dispatch(addToken(localStorage.getItem("token")))
         navigate("/");
       })
       .catch((err) => {

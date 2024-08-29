@@ -8,7 +8,8 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { add, decrease } from "../store/appSlice";
 function ProductDetails() {
-  const data = useSelector((state) => state.shop.item);
+  const data = useSelector((state) => state.shop.cartItem);
+  let productCount = useSelector((state)=>state.shop.productCount)
   const dispatch = useDispatch();
   const { id } = useParams();
   const [productsDetails, setProductsDetails] = useState([]);
@@ -20,8 +21,13 @@ function ProductDetails() {
   return (
     <Box>
       {productsDetails.map((item) => {
-        let count = 0;
-        if (item.id == id) {
+         productCount =0
+         {data.map((val) => {
+            if (val.id === item.id) {
+               productCount = val.itemCount
+            }
+          })}
+        if (item.id === Number(id)) {
           return (
             <Box key={item.id}>
               <Box sx={{ width: "100vw", textAlign: "center" }}>
@@ -43,12 +49,7 @@ function ProductDetails() {
                     />
                   </Grid>
                   <Grid item xs={2}>
-                    {data.map((val) => {
-                      if (val.id === item.id) {
-                        count = val.itemCount;
-                      }
-                    })}
-                    {count == 0 ? (
+                    {productCount === 0 ? (
                       <Button
                         sx={{
                           border: "1px solid gray",
@@ -87,7 +88,7 @@ function ProductDetails() {
                             marginTop: "5px",
                           }}
                         >
-                          {count}
+                          {productCount}
                         </Typography>
                         <Button
                           sx={{ borderLeft: "1px solid gray" }}

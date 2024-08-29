@@ -9,34 +9,26 @@ import {
   Typography,
 } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Link } from "react-router-dom";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { addToken } from "../store/appSlice";
 function Header() {
-  const [count, setCount] = useState(0);
-  const data = useSelector((val) => val.shop.item);
-  const header = useSelector((val)=>val.shop.header)
+  const dispatch = useDispatch()
+  const headerCount = useSelector((val) => val.shop.headerCount);
+  const token = useSelector((val) =>val.shop.token)
   const [open, setOpen] = useState(false);
-  function countData() {
-    let sum = 0;
-    data.map((items) => {
-      sum = sum + items.itemCount;
-    });
-    setCount(sum);
-  }
-  useEffect(() => {
-    countData();
-  }, [data]);
-
   function handleIcon() {
     setOpen(!open);
   }
-
+   useEffect(()=>{
+      dispatch(addToken(localStorage.getItem('token')))
+   },[])
   return (
     <Box> 
-      { localStorage.token ? 
+      {token ? 
     <Box sx={{ height: "100px", backgroundColor: "lightblue" }}>
       <Box sx={{ display: "flex", alignItems: "center", height: "100px" }}>
         <Grid container spacing={3}>
@@ -81,7 +73,7 @@ function Header() {
                         fontSize: "20px",
                       }}
                     >
-                      {count}
+                      {headerCount}
                     </Typography>
                   </Box>
                 </ListItem>
@@ -139,7 +131,11 @@ function Header() {
                               color: "black",
                               border: "1px solid black",
                             }}
-                            onClick={() => localStorage.clear()}
+                            onClick={() => {
+                              localStorage.clear()
+                              dispatch(addToken(''))
+                            }
+                            }
                           >
                             Logout
                           </Button>

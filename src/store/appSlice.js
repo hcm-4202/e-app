@@ -3,41 +3,57 @@ import { createSlice } from "@reduxjs/toolkit";
 const shopSlice = createSlice({
   name: "e-app",
   initialState: {
-    item: [],
-    header:false
+    cartItem: [],
+    headerCount:0,
+    productCount:0,
+    totalPrice:0,
+    token:''
   },
   reducers: {
     add: (state, action) => {
-      const itemIndex = state.item.findIndex(
+      const itemIndex = state.cartItem.findIndex(
         (item) => item.id === action.payload.id
       );
       if (itemIndex >= 0) {
-        state.item[itemIndex].itemCount += 1;
+        state.cartItem[itemIndex].itemCount += 1;
       } else {
         const temp = { ...action.payload, itemCount: 1 };
-        state.item.push(temp);
+        state.cartItem.push(temp);
       }
+      state.headerCount = state.headerCount + 1
+       state.totalPrice = 0
+      state.cartItem.map((items) => {
+        return state.totalPrice = state.totalPrice +  items.price * items.itemCount;
+      });
     },
     decrease: (state, action) => {
-      const itemIndex = state.item.findIndex((item) => {
-        return item.id == action.payload.id;
+      const itemIndex = state.cartItem.findIndex((item) => {
+        return item.id === action.payload.id;
       });
-      if (state.item[itemIndex].itemCount > 1) {
-        state.item[itemIndex].itemCount -= 1;
-      } else if (state.item[itemIndex].itemCount === 1) {
-        const filterItems = state.item.filter((val) => {
+      if (state.cartItem[itemIndex].itemCount > 1) {
+        state.cartItem[itemIndex].itemCount -= 1;
+      } else if (state.cartItem[itemIndex].itemCount === 1) {
+        const filterItems = state.cartItem.filter((val) => {
           return val.id !== action.payload.id;
         });
-        state.item = filterItems;
+        state.cartItem = filterItems;
       }
+      if(state.headerCount >= 1){
+        state.headerCount = state.headerCount - 1
+      }
+      state.totalPrice = 0
+      state.cartItem.map((items) => {
+       return state.totalPrice = state.totalPrice +  items.price * items.itemCount;
+      });
     },
-    remove: (state, action) => {
-      state.item.length = 0;
+    remove: (state) => {
+      state.cartItem.length = 0;
+      state.headerCount = 0
     },
-    headerBar :(state) =>{
-        state.header = !state.header
+    addToken :(state,action) =>{
+        state.token = action.payload
     }
   },
 });
-export const { add, decrease, remove,headerBar } = shopSlice.actions;
+export const { add, decrease, remove,addToken } = shopSlice.actions;
 export default shopSlice.reducer;

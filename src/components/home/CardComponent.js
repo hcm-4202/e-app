@@ -11,11 +11,17 @@ import CardMedia from "@mui/material/CardMedia";
 
 function CardComponent({ products }) {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.shop.item);
+  const data = useSelector((state) => state.shop.cartItem);
+  let productCount = useSelector((state)=>state.shop.productCount)
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap" }}>
       {products.map((product) => {
-        let count = 0;
+        productCount =0
+        {data.map((val) => {
+          if (val.id === product.id) {
+            productCount = val.itemCount
+          }
+        })}
         return (
           <Card
             sx={{
@@ -47,12 +53,8 @@ function CardComponent({ products }) {
               </CardContent>
             </Link>
             <CardContent>
-              {data.map((val) => {
-                if (val.id === product.id) {
-                  count = val.itemCount;
-                }
-              })}
-              {count == 0 ? (
+      
+              {productCount == 0 ? (
                 <Button
                   sx={{ border: "1px solid gray" }}
                   onClick={() => dispatch(add(product))}
@@ -85,7 +87,7 @@ function CardComponent({ products }) {
                     }}
                     data-testid="test"
                   >
-                    {count}
+                    {productCount}
                   </Typography>
                   <Button
                     sx={{ borderLeft: "1px solid gray" }}
